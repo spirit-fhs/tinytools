@@ -1,0 +1,17 @@
+Name:                tinytools
+Version:             0.1
+Synopsis:            Tiny Tools for spirit@fhs
+Homepage:            http://pads.fh-schmalkalden.de/spirit.html
+License:             BSD3
+License-file:        LICENSE
+Author:              Oliver Braun
+Maintainer:          ob@obraun.net
+Category:            Misc
+Build-type:          Simple
+Cabal-version:       >=1.2
+
+Executable askspirit
+  hs-source-dirs:    src
+  Main-is:           AskSpirit.hs
+  Build-depends:     base >= 4.2 && < 5,
+                     HTTP
