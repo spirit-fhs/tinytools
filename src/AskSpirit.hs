@@ -3,6 +3,7 @@ module Main where
 import Network.HTTP
 import Network.HTTP.Headers
 import System.Environment
+import ParseJSON (parseNewsFromString)
 
 main = do
     args <- getArgs
@@ -12,4 +13,10 @@ main = do
     rsps <- mapM (simpleHTTP . flip setHeaders [hdr] . getRequest .
        ("http://spiritdev.fh-schmalkalden.de/database/"++)) args'
     bodies <- mapM getResponseBody rsps
-    mapM_ putStrLn bodies
+    parseAndPrint bodies
+
+parseAndPrint =
+  mapM_ (\jsonString ->
+           case parseNewsFromString jsonString of
+             Just news -> print news
+             Nothing -> putStrLn $ "Error: not parsable\n" ++ jsonString)
