@@ -4,6 +4,7 @@ import Network.HTTP
 import Network.HTTP.Headers
 import System.Environment
 import ParseJSON (parseNewsFromString)
+import PrettyPrintNews (prettify)
 
 main = do
     args <- getArgs
@@ -18,5 +19,5 @@ main = do
 parseAndPrint =
   mapM_ (\jsonString ->
            case parseNewsFromString jsonString of
-             Just news -> print news
+             Just news -> putStr $ prettify news
              Nothing -> putStrLn $ "Error: not parsable\n" ++ jsonString)

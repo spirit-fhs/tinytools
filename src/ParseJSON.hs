@@ -9,23 +9,11 @@ import Data.Attoparsec hiding (take, takeWhile)
 import Data.Text (Text, pack)
 import qualified Data.ByteString.Char8 as BS
 
-newtype Response = Response { responseNews :: [News] }
-  deriving (Show)
+import Types
 
 instance FromJSON Response where
   parseJSON (Object v) =
     Response <$> v .: "news"
-
--- TODO: parse Time
-data News = News { newsId :: Integer
-                 , newsTitle :: String
-                 , newsContent :: String
-                 , newsDisplayedName :: String
-                 , newsClasses :: [Class]
-                 , newsComments :: [NewsComment]
-                 , newsCreationDate :: String
-                 }
-  deriving (Show)
 
 instance FromJSON News where
   parseJSON (Object v) =
@@ -39,20 +27,9 @@ instance FromJSON News where
       v .: "creationDate"
   parseJSON _ = mzero
 
-newtype Class = Class { classTitle :: String }
-  deriving (Show)
-
 instance FromJSON Class where
   parseJSON (Object v) =
     Class <$> v .: "title"
-
--- TODO: parse Time
-data NewsComment = NewsComment { newsCommentId :: Integer
-                               , newsCommentContent :: String
-                               , newsCommentDisplayedName :: String
-                               , newsCommentCreationDate :: String
-                               }
-  deriving (Show)
 
 instance FromJSON NewsComment where
   parseJSON (Object v) =
