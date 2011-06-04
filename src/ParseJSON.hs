@@ -5,8 +5,9 @@ import Data.Aeson
 import qualified Data.Aeson.Types as T
 import Control.Applicative ((<$>), (<*>))
 import Control.Monad (mzero)
-import Data.Attoparsec hiding (take, takeWhile)
+import Data.Attoparsec.Lazy hiding (take, takeWhile)
 import Data.Text (Text, pack)
+import qualified Data.ByteString.Lazy as L
 import qualified Data.ByteString.Char8 as BS
 
 import Types
@@ -18,7 +19,7 @@ instance FromJSON Response where
 instance FromJSON News where
   parseJSON (Object v) =
     News <$>
-      v .: "id" <*>
+      v .: "news_id" <*>
       v .: "title" <*>
       v .: "content" <*>
       v .: "displayedName"  <*>
@@ -40,10 +41,9 @@ instance FromJSON NewsComment where
       v .: "creationDate"
   parseJSON _ = mzero
 
-parseNewsFromString :: String -> Maybe Response
+-- parseNewsFromString :: String -> Maybe Response
 parseNewsFromString s =
-  let bs = BS.pack s
-  in case parse json bs of
+  case parse json s of
     (Done rest r) -> T.parseMaybe parseJSON r :: Maybe Response
     _ -> Nothing
 

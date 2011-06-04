@@ -1,8 +1,8 @@
 Make cabal install and then
 
-  ~/.cabal/bin/askspirit "news/1" "news?owner=braun"
+  ~/.cabal/bin/askspirit news/1
 
 or
 
-  ~/.cabal/bin/askspirit -x "news/1" "news?owner=braun"
+  ~/.cabal/bin/askspirit -x news/1
 

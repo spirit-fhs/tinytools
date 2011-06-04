@@ -14,5 +14,5 @@ Executable askspirit
   hs-source-dirs:    src
   Main-is:           AskSpirit.hs
   Build-depends:     base >= 4.2 && < 5,
-                     HTTP, time, aeson, text,
-                     attoparsec, bytestring
+                     http-enumerator, http-types,
+                     aeson, text, attoparsec, bytestring
