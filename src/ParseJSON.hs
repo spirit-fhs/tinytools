@@ -7,8 +7,6 @@ import Control.Applicative ((<$>), (<*>))
 import Control.Monad (mzero)
 import Data.Attoparsec.Lazy hiding (take, takeWhile)
 import Data.Text (Text, pack)
-import qualified Data.ByteString.Lazy as L
-import qualified Data.ByteString.Char8 as BS
 
 import Types
 
@@ -41,7 +39,6 @@ instance FromJSON NewsComment where
       v .: "creationDate"
   parseJSON _ = mzero
 
--- parseNewsFromString :: String -> Maybe Response
 parseNewsFromString s =
   case parse json s of
     (Done rest r) -> T.parseMaybe parseJSON r :: Maybe Response
