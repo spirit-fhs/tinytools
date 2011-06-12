@@ -16,3 +16,4 @@ Executable askspirit
   Build-depends:     base >= 4.2 && < 5,
                      http-enumerator, http-types,
                      aeson, text, attoparsec, bytestring
+  ghc-options:       -Wall -fno-warn-unused-do-bind
