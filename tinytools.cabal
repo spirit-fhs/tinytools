@@ -12,7 +12,7 @@ Cabal-version:       >=1.2
 
 Executable askspirit
   hs-source-dirs:    src
-  Main-is:           AskSpirit.hs
+  Main-is:           AskSpiritCLI.hs
   Build-depends:     base >= 4.2 && < 5,
                      http-enumerator, http-types,
                      aeson, text, attoparsec, bytestring

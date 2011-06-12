@@ -1,21 +1,16 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Main where
+module AskSpirit where
 
 import Network.HTTP.Enumerator
 import Network.HTTP.Types
 import qualified Data.ByteString.Lazy as L
-import System.Environment
 import ParseJSON (parseNewsFromString)
 import PrettyPrintNews (prettify)
 
 baseurl="https://212.201.64.226:8443/fhs-spirit/"
 
-main = do
-  args <- getArgs
-  let (acceptXML,arg) = case args of
-        ("-x":arg':_) -> (True, arg')
-        (arg':_)      -> (False,arg')
+spiritnews arg acceptXML = do
   req0 <- parseUrl $ baseurl ++ arg
   let req = req0 { method = methodGet
                  , requestHeaders = if acceptXML
