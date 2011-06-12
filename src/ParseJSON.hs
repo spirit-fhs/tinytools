@@ -20,22 +20,33 @@ instance FromJSON News where
       v .: "news_id" <*>
       v .: "title" <*>
       v .: "content" <*>
-      v .: "displayedName"  <*>
-      v .: "classes"  <*>
-      v .: "newsComments" <*>
-      v .: "creationDate"
+      v .: "owner"  <*>
+      v .: "degreeClass"  <*>
+      v .: "newsComment" <*>
+      v .: "expireDate" <*>
+      v .: "creationDate" <*>
+      v .: "lastModified"
   parseJSON _ = mzero
+
+instance FromJSON Owner where
+  parseJSON (Object v) =
+    Owner <$>
+      v .: "fhs_id" <*>
+      v .: "displayedName"
 
 instance FromJSON Class where
   parseJSON (Object v) =
-    Class <$> v .: "title"
+    Class <$>
+      v .: "title" <*>
+      v .: "class_id" <*>
+      v .: "mail"
 
 instance FromJSON NewsComment where
   parseJSON (Object v) =
     NewsComment <$>
-      v .: "id" <*>
+      v .: "comment_id" <*>
       v .: "content" <*>
-      v .: "displayedName" <*>
+      v .: "owner" <*>
       v .: "creationDate"
   parseJSON _ = mzero
 
