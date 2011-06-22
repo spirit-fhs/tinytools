@@ -14,6 +14,6 @@ Executable askspirit
   hs-source-dirs:    src
   Main-is:           AskSpiritCLI.hs
   Build-depends:     base >= 4.2 && < 5,
-                     http-enumerator, http-types,
+                     http-enumerator, http-types, tls,
                      aeson, text, attoparsec, bytestring
   ghc-options:       -Wall -fno-warn-unused-do-bind

@@ -6,7 +6,7 @@ prettify :: Response -> String
 prettify (Response news) = unlines $ map prettifyNews news
 
 prettifyNews :: News -> String
-prettifyNews (News newsid title content (Owner _ dname) _ comments _ cDate _) =
+prettifyNews (News newsid title content (Owner _ dname _) _ comments _ cDate _) =
   "> " ++ dname ++ ": " ++ title ++ " (Nr. " ++ show newsid
   ++ ", " ++ cDate ++ ")\n"
   ++ prettifyContent content 80 2
@@ -25,6 +25,6 @@ prettifyContent content maxLen indent =
   in fst $ foldl step (replicate (indent-1) ' ',0) words'
 
 prettifyComment :: NewsComment -> String
-prettifyComment (NewsComment commentId content (Owner _ dname) cDate) =
+prettifyComment (NewsComment commentId content (Owner _ dname _) cDate) =
   "  >> " ++ dname ++ " (Nr. " ++ show commentId ++ ", " ++ cDate ++ ")\n"
   ++ prettifyContent content 80 5

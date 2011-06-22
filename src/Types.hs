@@ -1,8 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Types where
 
-import Data.Aeson ( FromJSON, parseJSON, Value(Object), (.:) )
-import Control.Applicative ( (<$>), (<*>) )
+import Data.Aeson ( FromJSON, parseJSON, Value(Object, String), (.:) )
+import Control.Applicative ( (<$>), (<*>), pure )
 import Control.Monad ( mzero )
 
 newtype Response = Response { responseNews :: [News] }
@@ -19,7 +19,7 @@ data News = News
   , newsTitle :: String
   , newsContent :: String
   , newsOwner :: Owner
-  , newsClasses :: [Class]
+  , newsClasses :: [DegreeClass]
   , newsComments :: [NewsComment]
   , newsExpireDate :: String
   , newsCreationDate :: String
@@ -44,6 +44,7 @@ instance FromJSON News where
 data Owner = Owner
   { ownerFhs_id :: String
   , ownerDisplayedName :: String
+  , memberType :: MemberType
   }
     deriving (Show)
 
@@ -51,22 +52,42 @@ instance FromJSON Owner where
   parseJSON (Object v) =
     Owner <$>
       v .: "fhs_id" <*>
-      v .: "displayedName"
+      v .: "displayedName" <*>
+      v .: "memberType"
   parseJSON _ = mzero
 
-data Class = Class
+data MemberType = Lecturer | Student
+    deriving (Show)
+
+instance FromJSON MemberType where
+  parseJSON (String "Lecturer") = pure Lecturer
+  parseJSON (String "Student")  = pure Student
+  parseJSON _ = mzero
+
+data DegreeClass = DegreeClass
   { classTitle :: String
   , classClass_id :: Integer
-  , classMail :: String
+  , classType :: ClassType
+  , classMail :: Maybe String
   }
     deriving (Show)
 
-instance FromJSON Class where
+instance FromJSON DegreeClass where
   parseJSON (Object v) =
-    Class <$>
+    DegreeClass <$>
       v .: "title" <*>
       v .: "class_id" <*>
+      v .: "classType" <*>
       v .: "mail"
+  parseJSON _ = mzero
+
+data ClassType = RootClass | Class | Group
+    deriving (Show)
+
+instance FromJSON ClassType where
+  parseJSON (String "RootClass") = pure Class
+  parseJSON (String "Class") = pure Class
+  parseJSON (String "Group") = pure Group
   parseJSON _ = mzero
 
 -- TODO: parse Time

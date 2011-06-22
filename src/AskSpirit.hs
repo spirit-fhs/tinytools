@@ -7,6 +7,7 @@ import qualified Data.ByteString.Lazy as L
 
 import ParseJSON ( parseNewsFromString )
 import PrettyPrintNews (prettify)
+import Network.TLS (TLSCertificateUsage (CertificateUsageAccept))
 
 baseurl :: String
 baseurl = "https://212.201.64.226:8443/fhs-spirit/"
@@ -19,7 +20,7 @@ spiritnews arg acceptXML prettyPrint  = do
                      if acceptXML
                      then [("Accept", "application/xml")]
                      else [("Accept", "application/json")]
-                 , checkCerts = const $ return True
+                 , checkCerts = const $ return CertificateUsageAccept
                  }
   res <- withManager $ httpLbs req
   if acceptXML || not prettyPrint
